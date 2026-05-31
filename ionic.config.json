@@ -1,0 +1,8 @@
+{
+  "name": "gps",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "50715850"
+}
