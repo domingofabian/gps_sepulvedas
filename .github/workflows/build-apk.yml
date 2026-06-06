@@ -27,13 +27,25 @@ jobs:
       run: npm ci
 
     - name: Build Angular
-      run: npm run build
+      run: |
+        npm run build
+        echo "Build output:"
+        ls -laR www/ 2>/dev/null || echo "www directory does not exist!"
 
-    - name: Check www directory
-      run: ls -la www/ || echo "www directory not found"
+    - name: Check www directory contents
+      run: |
+        if [ -d "www" ]; then
+          echo "www directory exists"
+          ls -la www/ | head -20
+          echo "Total files in www:"
+          find www -type f | wc -l
+        else
+          echo "ERROR: www directory not found!"
+          exit 1
+        fi
 
     - name: Copy to Capacitor
-      run: npx capacitor copy android
+      run: npx capacitor copy
 
     - name: Build APK with Gradle
       run: cd android && ./gradlew assembleDebug
